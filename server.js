@@ -4,13 +4,14 @@ const mysql = require("mysql");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
+require('dotenv').config()
 
 const db = mysql.createConnection({
   connectionLimit: 10,
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "silet_kemkes",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USERNAME,
+  password: process.env.DB_PASS,
+  database: process.env.DB_NAME
 });
 
 db.connect((err) => {
