@@ -7,7 +7,6 @@ const jwt = require("jsonwebtoken");
 require('dotenv').config()
 
 const db = mysql.createConnection({
-  connectionLimit: 10,
   host: process.env.DB_HOST,
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASS,
@@ -23,8 +22,12 @@ db.connect((err) => {
 });
 
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cors());
+app.use(cors({
+  credentials: true,
+  origin: '*'
+}));
 app.use(bodyParser.json());
+
 
 const verivyJwt = (req, res, next) => {
   const token = req.headers["acces token"];
