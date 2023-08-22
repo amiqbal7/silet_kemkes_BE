@@ -17,7 +17,22 @@ const getData = async (req, res) => {
 
 const updateData = async (req, res) => {
   try {
-
+    const {
+      Nama_data,
+      Jumlah
+    } = req.body
+    await Users.update({
+      Nama_data: Nama_data,
+      Jumlah: Jumlah,
+    }, {
+      where: {
+        id: req.param.id
+      }
+    })
+    res.status(201).json({
+      success: true,
+      message: 'Data updated successfully!',
+    })
   } catch (err) {
     res.status(500).json({
       message: err.message
