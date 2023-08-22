@@ -1,17 +1,10 @@
 const express = require("express");
 const app = express();
-const mysql = require("mysql");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const jwt = require("jsonwebtoken");
 require('dotenv').config()
-
-const db = mysql.createConnection({
-  host: process.env.DB_HOST,
-  user: process.env.DB_USERNAME,
-  password: process.env.DB_PASS,
-  database: process.env.DB_NAME
-});
+const koneksi = require('./config/koneksi')
 
 db.connect((err) => {
   if (err) {
@@ -81,32 +74,6 @@ app.post("/login", (req, res) => {
   );
 });
 
-app.get("/silet_kemkes", (req, res) => {
-  db.query("SELECT * FROM data", (err, result) => {
-    if (err) {
-      console.error(err);
-      res.status(500).json({ message: "Failed to retrieve data" });
-    } else {
-      res.json(result);
-    }
-  });
-});
-
-
-
-app.put("/update/:id", (req, res) => {
-  const id = req.params.id;
-  const sql = "UPDATE data SET `Nama_data` =?, `Jumlah` =? WHERE id =?"
-
-  db.query(
-    sql,
-    [req.body.Nama_data, req.body.Jumlah, id],
-    (err, result) => {
-      if(err) return res.json("err");
-      return res.json({updated: true})
-    }
-  );
-});
 
 
 app.listen(4000, () => {
