@@ -16,6 +16,8 @@ jobs:
       DB_USERNAME: ${{ secrets.DB_USERNAME }}
       DB_HOST: ${{ secrets.DB_HOST }}
       DB_PASS: ${{ secrets.DB_PASS }}
+      ACCESSS_TOKEN_SECRET_KEY: ${{ secrets.ACCESSS_TOKEN_SECRET_KEY }}
+      REFRESH_TOKEN_SECRET_KEY: ${{ secrets.REFRESH_TOKEN_SECRET_KEY }}
       
     steps:
       - name: Login to Google Cloud
@@ -45,4 +47,4 @@ jobs:
               --platform managed \
               --allow-unauthenticated \
               --port 4000 \
-              --set-env-vars="DB_NAME=${{ secrets.DB_NAME }}, DB_USERNAME=${{ secrets.DB_USERNAME }}, DB_PASS=${{ secrets.DB_PASS }}, DB_HOST=${{ secrets.DB_HOST }},"
+              --set-env-vars="DB_NAME=${{ secrets.DB_NAME }}, DB_USERNAME=${{ secrets.DB_USERNAME }}, DB_PASS=${{ secrets.DB_PASS }}, DB_HOST=${{ secrets.DB_HOST }}, ACCESSS_TOKEN_SECRET_KEY= ${{ secrets.ACCESSS_TOKEN_SECRET_KEY }}, REFRESH_TOKEN_SECRET_KEY= ${{ secrets.REFRESH_TOKEN_SECRET_KEY }}              "
