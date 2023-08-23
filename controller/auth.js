@@ -27,15 +27,6 @@ const login = async (req, res, next) => {
         message: 'Wrong Password!'
       })
     }
-    if (!user.verified) {
-      return res.status(403).json({
-        success: false,
-        message: 'Email not verified!',
-        payload: {
-          uid: uid
-        }
-      })
-    }
 
     const accessToken = jwt.sign({
         uid,
