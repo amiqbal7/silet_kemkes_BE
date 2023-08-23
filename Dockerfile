@@ -20,4 +20,4 @@ COPY . .
 EXPOSE 4000
 
 # Run the application
-CMD ["node", "server.js"]
+CMD ["node", "app.js"]
