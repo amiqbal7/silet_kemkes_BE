@@ -18,8 +18,7 @@ const login = async (req, res, next) => {
       })
     }
     const id = user.id
-    const name = user.name
-    const email = req.body.email
+    const username = user.username
     // const match = await bcrypt.compare(req.body.password, user.password)
     // if (!match) {
     //   return res.status(401).json({
@@ -30,16 +29,14 @@ const login = async (req, res, next) => {
 
     const accessToken = jwt.sign({
         id,
-        name,
-        email,
+        username,
       },
       process.env.ACCESS_TOKEN_SECRET_KEY, {
         expiresIn: '24h'
       })
     const refreshToken = jwt.sign({
         id,
-        name,
-        email,
+        username,
       },
       process.env.REFRESH_TOKEN_SECRET_KEY, {
         expiresIn: '7d'
@@ -62,7 +59,7 @@ const login = async (req, res, next) => {
       message: 'Login Successfully!',
       payload: {
         id,
-        name,
+        username,
         token: accessToken,
       }
     })
@@ -105,12 +102,10 @@ const refreshToken = async (req, res) => {
         })
       }
       const id = user.id
-      const name = user.name
-      const email = user.email
+      const username = user.username
       const accessToken = jwt.sign({
           id,
-          name,
-          email
+          username,
         },
         process.env.ACCESS_TOKEN_SECRET_KEY, {
           expiresIn: '24h'
