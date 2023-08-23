@@ -7,17 +7,17 @@ const login = async (req, res, next) => {
   try {
     const user = await Users.findOne({
       where: {
-        email: req.body.email,
+        username: req.body.username,
       }
     })
 
     if (!user) {
-      return res.status(401).json({
+      return res.status(404).json({
         success: false,
-        message: 'Email not registered!',
+        message: 'User Not Found!',
       })
     }
-    const uid = user.uid
+    const id = user.id
     const name = user.name
     const email = req.body.email
     const match = await bcrypt.compare(req.body.password, user.password)
@@ -29,7 +29,7 @@ const login = async (req, res, next) => {
     }
 
     const accessToken = jwt.sign({
-        uid,
+        id,
         name,
         email,
       },
@@ -37,7 +37,7 @@ const login = async (req, res, next) => {
         expiresIn: '24h'
       })
     const refreshToken = jwt.sign({
-        uid,
+        id,
         name,
         email,
       },
@@ -48,7 +48,7 @@ const login = async (req, res, next) => {
       refresh_token: refreshToken
     }, {
       where: {
-        uid: uid
+        id: id
       }
     })
     res.cookie('refreshToken', refreshToken, {
@@ -61,7 +61,7 @@ const login = async (req, res, next) => {
       success: true,
       message: 'Login Successfully!',
       payload: {
-        uid,
+        id,
         name,
         token: accessToken,
       }
@@ -104,11 +104,11 @@ const refreshToken = async (req, res) => {
           message: 'Forbidden'
         })
       }
-      const uid = user.uid
+      const id = user.id
       const name = user.name
       const email = user.email
       const accessToken = jwt.sign({
-          uid,
+          id,
           name,
           email
         },

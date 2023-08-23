@@ -20,8 +20,8 @@ const verifyToken = async (req, res, next) => {
         message: 'Invalid Token!'
       })
     }
-    req.uid = decoded.uid
-    req.email = decoded.email
+    req.id = decoded.id
+    req.username = decoded.username
     console.log(decoded)
     next()
   })
@@ -31,17 +31,17 @@ const verifyToken = async (req, res, next) => {
 const verifyUser = async (req, res, next) => {
   try {
     const {
-      email
+      username
     } = req.method === "GET" ? req.query : req.body
     const user = await Users.findOne({
       where: {
-        email
+        username
       }
     })
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: 'Can\'t find Email!'
+        message: 'Can\'t find Username!'
       })
     }
     next()
